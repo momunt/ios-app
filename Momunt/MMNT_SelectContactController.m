@@ -75,6 +75,13 @@
     if(!_needSendBtn){
         _sendBtn.hidden = YES;
     }
+    
+    // did not reach server
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshContacts)
+                                                 name:@"updatedContacts"
+                                               object:nil];
+
 
 }
 
@@ -92,6 +99,11 @@
 
         self.allContacts = self.contacts;
 //    }
+}
+
+-(void)refreshContacts{
+    [self setData];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated

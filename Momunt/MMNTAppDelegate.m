@@ -38,12 +38,12 @@
     [[MMNTApiCommuniator sharedInstance] registerDeviceToken];
     
     // INITIALIZE ANALYTICS
-    [Amplitude initializeApiKey:@"566dacda860af72ecbead86e2e33cff4"]; // Momunt Test App
-//    [Amplitude initializeApiKey:@"eb6c64a259fcbe11c9a3dc3ce50130cc"]; // Momunt Production App
+//    [Amplitude initializeApiKey:@"566dacda860af72ecbead86e2e33cff4"]; // Momunt Test App
+    [Amplitude initializeApiKey:@"eb6c64a259fcbe11c9a3dc3ce50130cc"]; // Momunt Production App
     
     NSMutableDictionary *userProperties = [NSMutableDictionary dictionary];
     [userProperties setValue:@"1.5" forKey:@"version"];
-    [userProperties setValue:@"1.0" forKey:@"build"];
+    [userProperties setValue:@"1.03" forKey:@"build"];
     [Amplitude setUserProperties:userProperties];
     
     // INITIALIZE CRASHLYTICS

@@ -151,6 +151,89 @@
             </objects>
             <point key="canvasLocation" x="-42" y="526"/>
         </scene>
+        <!--onboarding VC-->
+        <scene sceneID="g3X-rC-UXy">
+            <objects>
+                <viewController storyboardIdentifier="onboarding" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pCS-cz-TAQ" userLabel="onboarding VC" customClass="MMNT_OnboardingVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GM5-Pb-485">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click here to load the momunt from your location." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="573-46-9KP" userLabel="tooltip">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.97254901959999995" green="0.5450980392" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" id="21f-9G-FNw" userLabel="Nav Buttons">
+                                <rect key="frame" x="0.0" y="493" width="320" height="75"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="wJ8-IY-Ulk" userLabel="cameraButton">
+                                        <rect key="frame" x="20" y="5" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Camera_button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedCameraBtn:" destination="pCS-cz-TAQ" eventType="touchUpInside" id="xPr-PH-sXp"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="Zud-Ts-4tG" userLabel="menuButton">
+                                        <rect key="frame" x="95" y="5" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="menu">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedMenuBtn:" destination="pCS-cz-TAQ" eventType="touchUpInside" id="jax-IK-8c6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="5S9-Bd-hZe" userLabel="momuntButton">
+                                        <rect key="frame" x="170" y="5" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="mymomunt">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedMomuntBtn:" destination="pCS-cz-TAQ" eventType="touchUpInside" id="DCX-uX-UzY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="jJs-LM-Qxq" userLabel="shareButton">
+                                        <rect key="frame" x="245" y="5" width="55" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="share">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedShareBtn:" destination="pCS-cz-TAQ" eventType="touchUpInside" id="zcV-d9-Egj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoBack" id="wHe-bG-JYG">
+                                <rect key="frame" x="163" y="453" width="60" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="arrow" destination="wHe-bG-JYG" id="UvQ-xI-gtZ"/>
+                        <outlet property="cameraBtn" destination="wJ8-IY-Ulk" id="yC9-t6-eqM"/>
+                        <outlet property="menuBtn" destination="Zud-Ts-4tG" id="Cio-io-vgZ"/>
+                        <outlet property="momuntBtn" destination="5S9-Bd-hZe" id="Xw3-C1-Kli"/>
+                        <outlet property="shareBtn" destination="jJs-LM-Qxq" id="PIk-mU-7cP"/>
+                        <outlet property="tooltip" destination="573-46-9KP" id="9GD-Ia-3VF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y2t-CW-ovR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1040" y="935"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="pA0-8U-KVk">
             <objects>
@@ -297,7 +380,7 @@
                                 </accessibility>
                             </view>
                             <view contentMode="scaleToFill" id="fYE-On-iAf" customClass="MMNT_DropDownView">
-                                <rect key="frame" x="0.0" y="-498" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="-508" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <containerView autoresizesSubviews="NO" contentMode="scaleToFill" id="piU-m9-IiJ" userLabel="Navigation Container View">
@@ -322,6 +405,14 @@
                                                 <rect key="frame" x="139" y="17" width="44" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="exit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dF4-yi-f08">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="0.23999999999999999" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1112,7 +1203,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TyH-Cs-WiJ">
-                                <rect key="frame" x="0.0" y="445.00000331486723" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="445" width="320" height="60.000000977888739"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.23999999999999999" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
@@ -1197,7 +1288,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="XNJ-EQ-vVo" userLabel="register email">
-                                <rect key="frame" x="0.0" y="445.00000331486723" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="445.00000097788876" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.23999999999999999" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
@@ -1322,7 +1413,7 @@
                                 <color key="backgroundColor" white="1" alpha="0.23999999999999999" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ofs-cG-3DU">
-                                <rect key="frame" x="0.0" y="328" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="328.00000104338784" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
@@ -1695,7 +1786,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MJl-qs-idw">
-                                <rect key="frame" x="0.0" y="506.99999993644627" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="506.99999991086776" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="0.23999999999999999" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
@@ -2122,7 +2213,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pfj-Mk-I5M" userLabel="social icon">
-                                                <rect key="frame" x="38" y="296" width="18" height="18"/>
+                                                <rect key="frame" x="38" y="296.00000018052231" width="18" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                 <state key="normal" image="instagramMap">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -3054,6 +3145,7 @@
         <image name="Check" width="78" height="58"/>
         <image name="Facebook" width="43" height="43"/>
         <image name="Flag" width="36" height="33"/>
+        <image name="GoBack" width="32" height="21"/>
         <image name="LoadingBackground" width="640" height="1136"/>
         <image name="Logo Icon 3" width="331" height="165"/>
         <image name="Logo icon" width="43" height="23"/>

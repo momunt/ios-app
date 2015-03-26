@@ -114,6 +114,10 @@ typedef enum{
  Tooltip
  */
 @property (strong, nonatomic) IBOutlet UILabel *tooltip;
+-(void)showTooltipWithText:(NSString *)string;
+-(void)hideTooltip;
+
+-(void)showNavigation;
 
 
 -(void)closeCamera;

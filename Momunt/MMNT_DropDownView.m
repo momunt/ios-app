@@ -29,8 +29,11 @@
     _bottomBar = [self.subviews objectAtIndex:2];
     _spacerBar = [self.subviews objectAtIndex:1];
     _logo = [_bottomBar.subviews objectAtIndex:0];
-    _spacerBar.alpha = 1.0f;
-    _spacerBar.hidden = NO;
+    _exit = [_bottomBar.subviews objectAtIndex:1];
+    
+    _exit.hidden = YES;
+//    _spacerBar.alpha = 1.0f;
+//    _spacerBar.hidden = NO;
     
     // tap gesture
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];

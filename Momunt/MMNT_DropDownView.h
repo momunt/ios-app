@@ -31,6 +31,7 @@
 @property (strong, nonatomic) UIView *bottomBar;
 @property (strong, nonatomic) UIView *spacerBar;
 @property (strong, nonatomic) UIImageView *logo;
+@property (strong, nonatomic) UILabel *exit;
 
 @property (nonatomic, weak) id<DropDownViewDelegate> delegate;
 -(void) setup;

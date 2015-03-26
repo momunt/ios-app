@@ -49,6 +49,8 @@
 
 #import "MTReachabilityManager.h"
 
+#import "MMNT_OnboardingVC.h"
+
 
 @interface MMNTViewController () <UIViewControllerTransitioningDelegate, UIViewControllerInteractiveTransitioning, DropDownViewDelegate, MMNTTrashViewDelegate, UIGestureRecognizerDelegate, CameraContainerDelegate, UICollectionViewDelegateFlowLayout, MMNTHelpTaskDelegate>{
     
@@ -156,7 +158,8 @@
     self.dropDownView.navigationController = [self.childViewControllers objectAtIndex:1];
     [self.dropDownView setup];
     self.dropState = DropViewClosed;
-    self.dropDownView.frame = CGRectMake(0,80-SCREEN_HEIGHT,SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.dropDownView.frame = CGRectMake(0,70-SCREEN_HEIGHT,SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.dropDownView.logo.center = CGPointMake(SCREEN_WIDTH/2, 17);
     
     UIView *dropNavigationContainer = [self.dropDownView.subviews objectAtIndex:0];
     dropNavigationContainer.frame =  CGRectMake(0,80,SCREEN_WIDTH, SCREEN_HEIGHT-80-50);
@@ -253,9 +256,9 @@
     
     
     
-    // START ON TRENDING PAGE
-    [self showDropDownWithDefaultBlur:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:nil];
+//    // START ON TRENDING PAGE
+//    [self showDropDownWithDefaultBlur:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:nil];
     
     
     _mapBackgroundView = [[MMNT_MapBlurView alloc] initWithFrame:CGRectMake(0,70,self.view.frame.size.width, self.view.frame.size.height-70)];
@@ -368,7 +371,7 @@
     
     if(_reloading)
         return;
-    [Amplitude logEvent:@"pressed menu button"];
+    [Amplitude logEvent:@"pressed momunt button"];
     
     _tooltip.text = @"Loading the momunt at your location.";
     
@@ -406,6 +409,19 @@
     [_navContainer pop_addAnimation:fromA forKey:@"center"];
 }
 
+-(void)showTooltipWithText:(NSString *)string{
+    _tooltip.text = string;
+    _tooltip.transform = CGAffineTransformMakeTranslation(0, -10);
+    // slide gallery down to reveal tooltip
+    [UIView animateWithDuration:0.3 animations:^{
+        _collectionView.transform = CGAffineTransformMakeTranslation(0, 30);
+    }];
+}
+-(void)hideTooltip{
+    [UIView animateWithDuration:0.3 animations:^{
+        _collectionView.transform = CGAffineTransformIdentity;
+    }];
+}
 /* ------------------------------------------------------------------------ */
 
 -(void)loadedApp{
@@ -415,6 +431,20 @@
 
     // connect to chat
     [[[MMNTDataController sharedInstance] MQTTcontroller] connect];
+    
+    /*
+     NEW ONBOARINDG
+     */
+    if(![[MMNTAccountManager sharedInstance] isTaskDone:200]){
+//        [self hideNavigation];
+        _tooltip.text = @"Loading momunt...";
+        [self setRefreshing];
+        [[MMNTDataController sharedInstance] fetchMomuntWithId:@"Gpumw51886"]; // Load Golden Gate Momunt
+        return;
+    }
+
+    
+    
     
     // fetch user pile
     NSString *pileStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPile"];
@@ -428,20 +458,6 @@
         }
     }
     
-    
-//    // grab user info
-//    [_apicommunicator getUserInfo];
-//    [_apicommunicator fetchUserChats];
-//    [_apicommunicator getTrendingMomunts];
-    
-    // fetch contacts on load - NOO BAD!
-//    dispatch_queue_t sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL);
-//    dispatch_async(sessionQueue, ^{
-//        [[MMNTDataController sharedInstance].ContactsManager getAddressBook];
-//    });
-    
-    // DEV
-    //        [JNKeychain deleteValueForKey:@"AccessToken"];
     
     self.collectionView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.0];
     
@@ -462,15 +478,21 @@
                                                                                                forKey:@"momunt"]];
         
     }
-    else if([[MMNTAccountManager sharedInstance] isTaskDone:103] && [CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedWhenInUse ){ // PULLED DOWN TO LOAD MOMUNT
-        [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isFirstLoad"]; 
-        // set refresh spinner
-        _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
-        _mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 20);
-        [_mapBackgroundView setDefaultState];
-        [_pullRefreshHeaderView setAlpha:1.0f];
-        [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
-        _reloading = YES;
+//    else if([[MMNTAccountManager sharedInstance] isTaskDone:103] && [CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedWhenInUse ){ // PULLED DOWN TO LOAD MOMUNT
+    
+    else{
+        [self showTooltipWithText:@"Loading your momunt"];
+        [self setRefreshing];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isFirstLoad"];
+        
+//        // set refresh spinner
+//        _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
+//        _mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 20);
+//        [_mapBackgroundView setDefaultState];
+//        [_pullRefreshHeaderView setAlpha:1.0f];
+//        [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
+//        _reloading = YES;
 
         
         // LOAD CURRENT MOMUNT!
@@ -482,9 +504,10 @@
             [[MMNTDataController sharedInstance] refreshMomunt];
         }
         
-    }else{
-        //
     }
+//    else{
+        
+//    }
     
 
 }
@@ -578,13 +601,14 @@
     }];
     
     // Reload galleries!
-//    dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView scrollRectToVisible:CGRectMake(0, 0, self.collectionView.frame.size.width, self.collectionView.frame.size.height) animated:NO]; // scroll gallery to top
         
         [self.collectionView reloadData];
-        
-        // return collection view to correct position after reloading the view. This should really be inside the if statemend below. But causes app to crash if executed from there.
-        [UIView animateWithDuration:0.7
+    
+        if([[MMNTAccountManager sharedInstance] isTaskDone:200]){
+
+            // return collection view to correct position after reloading the view
+            [UIView animateWithDuration:0.7
                               delay:0.2
              usingSpringWithDamping:0.5
               initialSpringVelocity:0.5
@@ -593,13 +617,22 @@
                              self.collectionView.transform = CGAffineTransformIdentity;
                          }
                          completion:nil];
-//    });
+        }else{
+            [[MMNTDataController sharedInstance] setTaskDone:200];
+            [self showTooltipWithText:@"This is a momunt at the Golden Gate Bridge."];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [self showTooltipWithText:@"Tap a photo."];
+            });
+        }
     
     if(_reloading){        
         [[MMNTApplication sharedApplication] sendEvent:nil];
         
         _reloading = NO;
         [_pullRefreshHeaderView PullRefreshScrollViewDataSourceDidFinishedLoading:self.collectionView];
+        
+        [self.dropDownView setAlpha:1.0f];
+        [_pullRefreshHeaderView setAlpha:0.0f];
     }
     
     [self showNavigation];
@@ -714,6 +747,8 @@
 }
 
 -(void)selectedStoredMomunt:(NSNotification*)notif {
+    if(_reloading)
+        return;
     
     NSString *momuntId = [[notif userInfo] valueForKey:@"momuntId"];
     
@@ -726,36 +761,27 @@
         {
             _selectedMyMomunt = YES;
             _loadedStoredMomunt = NO;
-                // set refresh spinner
-                _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
-                _mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 20);
-                [_pullRefreshHeaderView setAlpha:1.0f];
-                self.collectionView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0];
-                [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
             
-                if(!_reloading){
-                    [[MMNTDataController sharedInstance] refreshMomunt];
-                    _reloading = YES;
+            
+            _tooltip.text = @"Loading the momunt at your location";
+            [self setRefreshing];
 
-                }
+            
+            [[MMNTDataController sharedInstance] refreshMomunt];
 
         }
         else{
+            
             _selectedMyMomunt = NO;
             _loadedStoredMomunt = YES;
-            // set refresh spinner
-            _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
-            _mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 20);
-            [_pullRefreshHeaderView setAlpha:1.0f];
-            self.collectionView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0];
-            [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
             
+            _tooltip.text = [NSString stringWithFormat:@"Loading %@", [[notif userInfo] valueForKey:@"name"]];
+            [self setRefreshing];
+
             
-            if(!_reloading){
-                // start fetching momunt.
-                [[MMNTDataController sharedInstance] fetchMomuntWithId: momuntId];
-                _reloading = YES;
-            }
+            // start fetching momunt.
+            [[MMNTDataController sharedInstance] fetchMomuntWithId: momuntId];
+
         }
     
     // transition back to gallery
@@ -763,11 +789,7 @@
         // close profile view
         self.dropState = DropViewClosed;
         [self animatePaneWithInitialVelocity:[self.animation.velocity CGPointValue]];
-        //fade out fropdown fiev + blur so that loading spinner is visible
-//        [UIView animateWithDuration:0.3 animations:^{
-//            [self.dropDownView setAlpha:0.0f];
-//            [self.blurContainer setAlpha:0.0f];
-//        }];
+
     }
     
     
@@ -924,15 +946,17 @@
  */
 -(void)uploadImage:(UIImage *)image withLocation:(CLLocation *)location timestamp:(NSDate *)t afterRefresh:(BOOL)willRefresh{
     if(willRefresh){
-        // set refresh spinner
-        _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
-        
-        [_pullRefreshHeaderView setAlpha:1.0f];
-        [self.dropDownView setAlpha:0.0f];
-        self.collectionView.backgroundColor = [UIColor clearColor];
-        
-        [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
-        _reloading = YES;
+        _tooltip.text = @"Loading the momunt at your location.";
+        [self setRefreshing];
+//        // set refresh spinner
+//        _collectionView.transform = CGAffineTransformMakeTranslation(0, 20);
+//        
+//        [_pullRefreshHeaderView setAlpha:1.0f];
+//        [self.dropDownView setAlpha:0.0f];
+//        self.collectionView.backgroundColor = [UIColor clearColor];
+//        
+//        [_pullRefreshHeaderView setState:MMNTPullRefreshLoading];
+//        _reloading = YES;
         
     }
     
@@ -1146,6 +1170,7 @@
 
         [self.trashView pop_addAnimation:fromA forKey:@"center"];
         [_navContainer pop_addAnimation:fromA forKey:@"center"];
+        [_tooltip pop_addAnimation:fromA forKey:@"center"];
 
         
         POPSpringAnimation *cameraCenter = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -1179,6 +1204,7 @@
     [self.collectionView pop_addAnimation:fromA forKey:@"center"];
     [self.trashView pop_addAnimation:fromA forKey:@"center"];
     [_navContainer pop_addAnimation:fromA forKey:@"center"];
+    [_tooltip pop_addAnimation:fromA forKey:@"center"];
     
     
     POPSpringAnimation *cameraCenter = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -1200,6 +1226,7 @@
     [self.collectionView pop_addAnimation:fromA forKey:@"center"];
     [self.trashView pop_addAnimation:fromA forKey:@"center"];
     [_navContainer pop_addAnimation:fromA forKey:@"center"];
+    [_tooltip pop_addAnimation:fromA forKey:@"center"];
     
     
     POPSpringAnimation *cameraCenter = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -1323,6 +1350,11 @@
 {
     return self.dropState == DropViewOpen ? CGRectMake(0,0,SCREEN_WIDTH, SCREEN_HEIGHT) : CGRectMake(0,0,SCREEN_WIDTH,70);
 }
+
+/*
+ Method with the stupidest name ever
+ Animates the dropdown menu view in place. Open/Close
+ */
 - (void)animatePaneWithInitialVelocity:(CGPoint)initialVelocity
 {
     [self.dropDownView pop_removeAllAnimations];
@@ -1350,10 +1382,14 @@
         [UIView animateWithDuration:0.2 animations:^{
             self.dropDownView.spacerBar.alpha = 1.0f;
             self.dropDownView.logo.center = CGPointMake(SCREEN_WIDTH/2, 17);
+            self.dropDownView.logo.hidden = NO;
+            self.dropDownView.exit.hidden = YES;
         }];
     }else{
         [UIView animateWithDuration:0.2 animations:^{
-            self.dropDownView.logo.center = CGPointMake(SCREEN_WIDTH/2, 25);
+            self.dropDownView.logo.hidden = YES;
+            self.dropDownView.exit.hidden = NO;
+//            self.dropDownView.logo.center = CGPointMake(SCREEN_WIDTH/2, 25);
         }];
     }
     
@@ -1366,10 +1402,6 @@
         if(self.dropState==DropViewClosed){
             self.blurContainer.hidden = YES;
             self.dropDownView.spacerBar.hidden = NO;
-            
-//            if(_reloading){
-//                self.dropDownView.alpha = 0.0f;
-//            }
         }else{
             self.dropDownView.spacerBar.hidden = YES;
         }
@@ -1537,6 +1569,7 @@
 }
 
 -(void)showDropDownWithDefaultBlur:(BOOL)val{
+    // REDUNDANT code here.... :(
     
     if(self.dropState == DropViewClosed){
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
@@ -1545,6 +1578,10 @@
         self.blurContainer.alpha = 1.0f;
         self.blurImageView.alpha = 1.0f;
         self.blurContainer.hidden = NO;
+        
+        _dropDownView.logo.hidden = YES;
+        _dropDownView.exit.hidden = NO;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if(val){
@@ -1881,15 +1918,24 @@
     
 
     // move map background view
-    self.mapBackgroundView.clipsToBounds = YES;
-    self.mapBackgroundView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35.0 - scrollView.contentOffset.y + 0.0);
+//    self.mapBackgroundView.clipsToBounds = YES;
+//    self.mapBackgroundView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35.0 - scrollView.contentOffset.y + 0.0);
     
-    // show tooltip
-//    _tooltip.hidden = NO;
+    if( scrollView.contentOffset.y >0){ _collectionView.backgroundColor = [UIColor whiteColor];}
+    else{ _collectionView.backgroundColor = [UIColor clearColor];}
     
-    _collectionView.backgroundColor = [UIColor clearColor];
-    _tooltip.text = scrollView.isTracking ? [NSString stringWithFormat:@"Refresh photos at %@ location",  _myMomunt.name] : [NSString stringWithFormat:@"Loading more photos at %@ location",  _myMomunt.name];
+    if(scrollView.contentOffset.y > 0){
+        [self hideTooltip];
+    }
+    else if(scrollView.isTracking){
+        _tooltip.text = [NSString stringWithFormat:@"Refresh photos at %@",  _myMomunt.name];
+    }
     
+    if([_myMomunt.type isEqualToString:@"pile"]){
+        // can't refresh a pile momunt
+        _tooltip.text = @"this is a collection";
+        return;
+    }
 
     if(scrollView.isTracking && scrollView.contentOffset.y <= -30.0f){
         
@@ -1928,25 +1974,27 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
+    if([_myMomunt.type isEqualToString:@"pile"]){
+        // can't refresh a pile momunt
+        _tooltip.text = @"this is a collection";
+        
+        // show tooltip for a sec, then scroll up
+        [UIView animateWithDuration:0.3 animations:^{
+            _tooltip.transform = CGAffineTransformIdentity;
+            _collectionView.transform = CGAffineTransformMakeTranslation(0, 40);
+        }completion:^(BOOL finished) {
+            _collectionView.backgroundColor = [UIColor whiteColor];
+            [UIView animateWithDuration:0.2 delay:0.8 options:UIViewAnimationOptionCurveLinear animations:^{
+                _collectionView.transform = CGAffineTransformIdentity;
+            } completion:nil];
+        }];
+        
+        return;
+    }
+    
 	[_pullRefreshHeaderView PullRefreshScrollViewDidEndDragging:scrollView];
     
-//    if(self.mapBackgroundView.hidden){return;}
-    
-//    if(self.currentOffsetY <= - 80.0f){
-//        // refreshing
-//        [UIView animateWithDuration:0.2 animations:^{
-//            self.mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 40); // leave space for the alert view
-//        } completion:^(BOOL finished) {
-//            //
-//        }];
-//
-//    }else{
-//        [UIView animateWithDuration:0.2 animations:^{
-//            self.mapBackgroundView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35.0);
-//            self.mapBackgroundView.transform = CGAffineTransformMakeTranslation(0, 0);
-//        }];
-//    }
+     scrollView.backgroundColor = [UIColor whiteColor];
     
 	
 }
@@ -1969,7 +2017,7 @@
     [[MMNTDataController sharedInstance] fetchMomuntAtCoordinate:CLLocationCoordinate2DMake(_myMomunt.lat, _myMomunt.lng) andTime:[NSDate date] source:@"refresh"];
     
     // make tooltip follow the top of the collection view
-    _tooltip.text = [NSString stringWithFormat:@"loading more photos at %@ location",  _myMomunt.name];
+    _tooltip.text = [NSString stringWithFormat:@"Loading new photos at %@",  _myMomunt.name];
     [UIView animateWithDuration:0.3 animations:^{
         _tooltip.transform = CGAffineTransformIdentity;
         _collectionView.transform = CGAffineTransformMakeTranslation(0, 40);
@@ -1979,6 +2027,7 @@
 
 - (void) PullRefreshHeaderDidFinishLoading:(MMNTPullRefreshHeader*)view{
     [self.dropDownView setAlpha:1.0f];
+    [_pullRefreshHeaderView setAlpha:0.0f];
     // if no momunt loaded -> still show background map
     if([_momunt count]>0){
         self.collectionView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0];  // white background
@@ -2023,7 +2072,14 @@
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-//    [self restartTipTimer];
+    
+    if(!_reloading){
+        [self hideTooltip];
+    }
+    if(!_removedItem){
+        [self showNavigation];
+    }
+    
     if([self.currSegue isEqualToString:@"showShareScreen"]){
         self.shareViewsManager.tduration = 0.3;
         self.shareViewsManager.maxDelay = 0.2;
@@ -2096,7 +2152,7 @@
 //    [self.trashView.trashUndo pop_addAnimation:scaleUndo forKey:@"scale"];
     
     [self hideNavigation];
-    
+//    
     [MMNT_SharedVars runPOPSpringAnimation:kPOPLayerTranslationXY
                                     onLayer:_trashView.layer
                                    toValue:[NSValue valueWithCGPoint:CGPointMake(0, -100)]
@@ -2296,6 +2352,9 @@
     
 }
 -(void)showNextTip:(NSNotification *) notif{
+    
+    
+    
     if(_isActive || _alertShowing){return;}
     if(_reloading && self.dropState == DropViewClosed){return;}
     
@@ -2310,6 +2369,16 @@
             return;
         }
     }
+    
+    // Dont show any other tips in this version
+    return;
+    
+    
+//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+//    MMNT_OnboardingVC *tipVC = (MMNT_OnboardingVC *)[mainStoryboard instantiateViewControllerWithIdentifier: @"onboarding"];
+//    tipVC.taskId = 201;
+//    tipVC.parent = self;
+//    [tipVC show];
     
     if(!_galleryBlur){
         _galleryBlur = [[UIImageView alloc] initWithFrame:self.view.frame];

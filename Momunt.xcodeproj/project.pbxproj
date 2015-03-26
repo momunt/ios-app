@@ -96,6 +96,7 @@
 		852CC1301A8710D40009225C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 852CC12E1A8710D40009225C /* Fabric.framework */; };
 		852D11D71A51E14500BC5E44 /* MMNT_CarouselHitTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 852D11D61A51E14500BC5E44 /* MMNT_CarouselHitTestView.m */; };
 		852D11DA1A5201F000BC5E44 /* MMNT_MomuntsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 852D11D91A5201F000BC5E44 /* MMNT_MomuntsList.m */; };
+		8532E8D41AC3505B0091F951 /* MMNT_OnboardingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8532E8D31AC3505B0091F951 /* MMNT_OnboardingVC.m */; };
 		8535DA911A28104000C97DB9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8535DA901A28104000C97DB9 /* Social.framework */; };
 		8535DAA31A2A90E500C97DB9 /* MMNT_PDFWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8535DAA21A2A90E500C97DB9 /* MMNT_PDFWebViewViewController.m */; };
 		8535DAA81A2AA04500C97DB9 /* MMNT_ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 8535DAA71A2AA04500C97DB9 /* MMNT_ForgotPassword.m */; };
@@ -345,6 +346,8 @@
 		852D11D61A51E14500BC5E44 /* MMNT_CarouselHitTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMNT_CarouselHitTestView.m; sourceTree = "<group>"; };
 		852D11D81A5201F000BC5E44 /* MMNT_MomuntsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMNT_MomuntsList.h; sourceTree = "<group>"; };
 		852D11D91A5201F000BC5E44 /* MMNT_MomuntsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMNT_MomuntsList.m; sourceTree = "<group>"; };
+		8532E8D21AC3505B0091F951 /* MMNT_OnboardingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMNT_OnboardingVC.h; sourceTree = "<group>"; };
+		8532E8D31AC3505B0091F951 /* MMNT_OnboardingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMNT_OnboardingVC.m; sourceTree = "<group>"; };
 		8535DA901A28104000C97DB9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		8535DAA11A2A90E500C97DB9 /* MMNT_PDFWebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMNT_PDFWebViewViewController.h; sourceTree = "<group>"; };
 		8535DAA21A2A90E500C97DB9 /* MMNT_PDFWebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMNT_PDFWebViewViewController.m; sourceTree = "<group>"; };
@@ -608,6 +611,8 @@
 				85066697199296FF005771F2 /* MMNT_DropDownView.m */,
 				85037D77194FB91F00211CC2 /* MMNTViewController.h */,
 				85037D78194FB91F00211CC2 /* MMNTViewController.m */,
+				8532E8D21AC3505B0091F951 /* MMNT_OnboardingVC.h */,
+				8532E8D31AC3505B0091F951 /* MMNT_OnboardingVC.m */,
 				8518F6351A5CF1740079DCBF /* MMNT_MapBlurView.h */,
 				8518F6361A5CF1740079DCBF /* MMNT_MapBlurView.m */,
 				850845D219D8CCC600DB189A /* MMNT_GalleryCell.h */,
@@ -1293,6 +1298,7 @@
 				8535DAA31A2A90E500C97DB9 /* MMNT_PDFWebViewViewController.m in Sources */,
 				850DF282197EEB2600520222 /* MMNT_Help_ViewController.m in Sources */,
 				850ADB4319BD27F1000B3355 /* MMNT_checkButton.m in Sources */,
+				8532E8D41AC3505B0091F951 /* MMNT_OnboardingVC.m in Sources */,
 				85C3B60F19D47C6000D49602 /* MMNT_LoadingSpinner.m in Sources */,
 				851AB2C11A97716F001F662D /* MMNT_VerifyPhoneNumberVC.m in Sources */,
 				8511FCB219E4D11D000BD38A /* MMNT_UnreadBadge.m in Sources */,

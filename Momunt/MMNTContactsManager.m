@@ -104,7 +104,7 @@ void MyAddressBookExternalChangeCallback (ABAddressBookRef ntificationaddressboo
         // show real address book permissions dialog
         BOOL allowAddressBook = [[MMNTDataController sharedInstance] askAddressBookPermission];
         if(allowAddressBook){
-//            [self updateContacts];
+            [self updateContacts];
         }
     }
     
@@ -230,6 +230,11 @@ void MyAddressBookExternalChangeCallback (ABAddressBookRef ntificationaddressboo
         }
         
         _sercheableContacts = [[_momuntContacts arrayByAddingObjectsFromArray:_allMomuntUsers] arrayByAddingObjectsFromArray:_phoneContacts];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updatedContacts"
+                                                            object:self
+                                                          userInfo:nil];
+        
 
     }];
 }

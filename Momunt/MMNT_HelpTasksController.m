@@ -92,7 +92,7 @@
     _promptText.backgroundColor = [UIColor clearColor];
     _promptText.text = _helpText;
     _promptText.textColor = [UIColor colorWithWhite:1 alpha:1];
-    _promptText.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18.0];
+    _promptText.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size: _taskId==108 ? 14.0 : 18.0];
     _promptText.textAlignment = NSTextAlignmentLeft;
     _promptText.editable = NO;
     [_promptView addSubview:_promptText];

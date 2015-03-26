@@ -22,6 +22,7 @@
         [self addSubview:self.imageView];
         self.imageView.userInteractionEnabled = YES;
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }

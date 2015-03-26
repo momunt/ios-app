@@ -422,6 +422,12 @@
     [self.mainController.blurContainer pop_removeAllAnimations];
     [self.mainController.dropDownView pop_removeAllAnimations];
     
+    // hide tooltip and show navigation when return to gallery
+    if(!_loadingCustomMomunt){
+        [self.mainController hideTooltip];
+    }
+    [self.mainController showNavigation];
+    
     //unblur container
     POPBasicAnimation *fade = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
     fade.toValue =  @(0.0);
@@ -471,6 +477,8 @@
     
     _doneCentering = NO;
     _doneScaling = NO;
+    
+//    self.startCenter = CGPointMake(self.startCenter.x, self.startCenter.y+self.mainController.collectionView.frame.origin.y-70); // account for any change in collectionView position...this doesnt work
     
     POPSpringAnimation *center = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
     center.toValue = [NSValue valueWithCGPoint:self.startCenter];
@@ -938,7 +946,11 @@
                              _outline.strokeEnd = 0.0;
                              
                              if(_loadingCustomMomunt){
+                                 
+                                 [_mainController showTooltipWithText:@"Loading custom momunt."];
+//                                 .tooltip.text = @"Loading custom momunt";
                                  [_mainController setRefreshing];
+                                 
                                  _mainController.loadedStoredMomunt = NO;
                                  [self dismiss];
                              }
@@ -1159,7 +1171,7 @@
     if(![[MMNTAccountManager sharedInstance] isTaskDone:108]){
         _helpTaskVC = [[MMNT_HelpTasksController alloc] init];
         _helpTaskVC.delegate = self;
-        _helpTaskVC.helpText = @"Tap the photo to see the map. Use it to look at other momunts around the world.";
+        _helpTaskVC.helpText = @"Tap the photo to see the map and look at other momunts around the world.";
         _helpTaskVC.position = @"top";
         _helpTaskVC.taskType = @"tip";
         _helpTaskVC.taskId = 108;

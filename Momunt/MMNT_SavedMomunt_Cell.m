@@ -564,8 +564,9 @@
     // POST NOTIFICATION to load a new momunt
     [[NSNotificationCenter defaultCenter] postNotificationName:@"selectedStoredMomunt"
                                                         object:self
-                                                      userInfo:[NSDictionary dictionaryWithObject:_momuntId
-                                                                                           forKey:@"momuntId"]];
+                                                      userInfo:[[NSDictionary alloc] initWithObjectsAndKeys: _momuntId, @"momuntId", _name.text, @"name", nil]];
+//     [NSDictionary dictionaryWithObject:_momuntId
+//                                                                                           forKey:@"momuntId"]];
     
     
     [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder)

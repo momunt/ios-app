@@ -15,7 +15,7 @@
 #import "MMNTApiCommuniator.h"
 #import "MMNTApiCommunicatorDelegate.h"
 #import "MMNTAccountManager.h"
-#import "MMNT_HelpSlidesController.h"
+//#import "MMNT_HelpSlidesController.h"
 #import "MMNT_SignInController.h"
 
 @interface MMNT_VerificationVC () <MMNTApiCommunicatorDelegate>{

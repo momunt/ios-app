@@ -78,39 +78,33 @@
     _closeBtn.frame = frame;
 
     
-    MMNTDataController *mmntDataController = [MMNTDataController sharedInstance];
-    
-    if(!_sharePromptView){
-        _sharePromptView = [[MMNT_PassTouches alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 80) ];
-        _sharePromptView.backgroundColor = [UIColor clearColor];
-//        _sharePromptView.layer.transform =  CATransform3DMakeTranslation(0, 100, 0);
-        [self.view addSubview:_sharePromptView];
-        
-        _sharePrompt = [[UITextView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-200)/2, 10, 200, 60) ];
-        _sharePrompt.backgroundColor = [UIColor clearColor];
-        _sharePrompt.text = mmntDataController.sharePile ? @"save or share your collection" : @"save or share the whole momunt";
-        _sharePrompt.textColor = [UIColor colorWithWhite:1 alpha:1];
-        _sharePrompt.font = [UIFont fontWithName:@"HelveticaNeue" size:18.0];
-        _sharePrompt.textAlignment = NSTextAlignmentCenter;
-        [_sharePromptView addSubview:_sharePrompt];
-    }else{
-        _sharePromptView.layer.transform =  CATransform3DMakeTranslation(0, 0, 0);
-        _sharePromptView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 80);
-        
-    }
-    
+//    MMNTDataController *mmntDataController = [MMNTDataController sharedInstance];
+//    
+//    if(!_sharePromptView){
+//        _sharePromptView = [[MMNT_PassTouches alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 80) ];
+//        _sharePromptView.backgroundColor = [UIColor clearColor];
+////        _sharePromptView.layer.transform =  CATransform3DMakeTranslation(0, 100, 0);
+//        [self.view addSubview:_sharePromptView];
+//        
+//        _sharePrompt = [[UITextView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-200)/2, 10, 200, 60) ];
+//        _sharePrompt.backgroundColor = [UIColor clearColor];
+//        _sharePrompt.text = mmntDataController.sharePile ? @"save or share your collection" : @"save or share the whole momunt";
+//        _sharePrompt.textColor = [UIColor colorWithWhite:1 alpha:1];
+//        _sharePrompt.font = [UIFont fontWithName:@"HelveticaNeue" size:18.0];
+//        _sharePrompt.textAlignment = NSTextAlignmentCenter;
+//        [_sharePromptView addSubview:_sharePrompt];
+//    }else{
+//        _sharePromptView.layer.transform =  CATransform3DMakeTranslation(0, 0, 0);
+//        _sharePromptView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 80);
+//        
+//    }
+//    
     _saveLabel.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     _messageLabel.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     _postLabel.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     _tweetLabel.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     
-//    _closeBtn.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 60);
-//    _closeBtn.alpha = 0;
-//     _closeBtn.transform = CGAffineTransformMakeScale(1,1);
-//    [UIView animateWithDuration:0.3 animations:^{
-//        _closeBtn.alpha = 1.0;
-//    }];
-   
+
 
 }
 -(void)close:(UITapGestureRecognizer *)recognizer {

@@ -169,29 +169,15 @@
     if (scrollView.contentOffset.y <= - 80.0f && !_loading) {
         [_delegate PullRefreshHeaderDidTriggerRefresh:self];
         [[MMNTDataController sharedInstance] setTaskDone:103]; // completed pull down refresh!
-//        [UIView animateWithDuration:0.2 animations:^{
-//            scrollView.transform = CGAffineTransformMakeTranslation(0, 40); // leave space for the orange tooltip view
-//        }];
     }else if (scrollView.contentOffset.y > - 80.0f && !_loading) {
         [self setState:MMNTPullRefreshNormal];
     }
 }
 
 -(void) PullRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView{
-    // animate back to top
-    
+
     [self setState:MMNTPullRefreshNormal];
     
-    
-    
-//    [UIView animateWithDuration:0.3
-//                          delay:0.2
-//         usingSpringWithDamping:0.6
-//          initialSpringVelocity:2
-//                        options:UIViewAnimationOptionCurveEaseInOut
-//                     animations:^{
-//                        scrollView.transform = CGAffineTransformIdentity;
-//                     } completion:nil];
     
 }
 /*
